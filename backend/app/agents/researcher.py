@@ -3,24 +3,26 @@ from app.tools.web_search import web_search_tool
 
 def researcher_agent(state: AgentState):
 
-    query = state["query"]
+    search_tasks = state["search_tasks"]
 
-    results = web_search_tool(query)
+    all_research = []
+    
+    for task in search_tasks:
+        results = web_search_tool(task)
 
-    formatted_results = []
-
-    for result in results:
-        formatted_results.append(
-            f"""
+        for result in results:
+            all_research.append(
+                f"""
     Title: {result['title']}
     Content: {result['content']}
     URL: {result['url']}
     """
         )
 
-    research_data = "\n\n".join(formatted_results)
+    research_data = "\n\n".join(all_research)
 
     return {
         "research": research_data
     }
     
+
