@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.agents.planner import planner_agent
+from app.graph.workflow import graph
 
 app = FastAPI()
 
@@ -10,7 +11,7 @@ async def root():
 @app.get("/test")
 async def test():
 
-    result = planner_agent({
+    result = graph.invoke({
         "query": "Latest AI agent frameworks",
         "plan": "",
         "research": "",
