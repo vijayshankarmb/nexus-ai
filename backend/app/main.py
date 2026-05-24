@@ -15,7 +15,7 @@ async def root():
 @app.get("/test")
 async def test():
 
-    result = graph.invoke({
+    result = await graph.ainvoke({
         "query": "Latest AI agent frameworks",
         "plan": "",
         "research": "",

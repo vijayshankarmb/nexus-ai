@@ -1,3 +1,4 @@
+import asyncio
 from app.graph.state import AgentState
 from app.tools.web_search import web_search_tool
 from app.utils.logger import (
@@ -6,29 +7,32 @@ from app.utils.logger import (
     log_info
 )
 
-def researcher_agent(state: AgentState):
+async def researcher_agent(state: AgentState):
     log_node_start("researcher agent")
     search_tasks = state["search_tasks"]
 
-    all_research = []
-    
     for task in search_tasks:
         log_info(f"Researching: {task}")
-        results = web_search_tool(task)
 
-        for result in results:
-            all_research.append(
-                f"""
-    Title: {result['title']}
-    Content: {result['content']}
-    URL: {result['url']}
-    """
-        )
+    research_tasks = [
+        web_search_tool(task) for task in search_tasks
+    ]
 
-    research_data = "\n\n".join(all_research)
+    results = await asyncio.gather(*research_tasks)
+
+    all_research = ""
+
+    for result_set in results:
+        for result in result_set:
+            all_research += f"""
+        Title: {result['title']}
+        Content: {result['content']}
+        URL: {result['url']}
+        """
+    log_info("Research completed")
     log_node_end("researcher agent")
     return {
-        "research": research_data,
+        "research": all_research,
         "retry_count": state["retry_count"] + 1
     }
     
