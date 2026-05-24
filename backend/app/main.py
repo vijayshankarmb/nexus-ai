@@ -19,7 +19,8 @@ async def test():
         "query": "Latest AI agent frameworks",
         "plan": "",
         "research": "",
-        "final_report": ""
+        "final_report": "",
+        "retry_count": 0
     })
 
     return result

@@ -28,6 +28,7 @@ def researcher_agent(state: AgentState):
     research_data = "\n\n".join(all_research)
     log_node_end("researcher agent")
     return {
-        "research": research_data
+        "research": research_data,
+        "retry_count": state["retry_count"] + 1
     }
     

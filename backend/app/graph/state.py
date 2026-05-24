@@ -6,5 +6,6 @@ class AgentState(TypedDict):
     search_tasks: List[str]
     research: str
     final_report: str
+    retry_count: int
 
     
