@@ -1,8 +1,14 @@
 from app.core.llm import llm
 from app.graph.state import AgentState
 import json
+from app.utils.logger import (
+    log_node_start,
+    log_node_end,
+    log_info
+)
 
 def planner_agent(state: AgentState):
+    log_node_start("planner agent")
     query = state["query"]
 
     prompt = f"""
@@ -31,7 +37,9 @@ Topic:
     try:
         cleaned_response = response.content.strip()
         search_tasks = json.loads(cleaned_response)
+        log_info(f"Generated {len(search_tasks)} search tasks")
     except:
         search_tasks = [response.content]   
+    log_node_end("planner agent")
     return {"search_tasks": search_tasks}
 

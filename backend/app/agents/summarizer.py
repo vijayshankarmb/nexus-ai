@@ -1,9 +1,13 @@
 from app.core.llm import llm
 from app.graph.state import AgentState
+from app.utils.logger import (
+    log_node_start,
+    log_node_end,
+    log_info
+)
 
 def summarizer_agent(state: AgentState):
-
-    print("\n--- SUMMARIZER NODE STARTED ---\n")
+    log_node_start("summarizer agent")
 
     research = state["research"]
 
@@ -15,11 +19,12 @@ def summarizer_agent(state: AgentState):
     Research:
     {research}
     """
+    log_info("Summarizing the research")
 
     response = llm.invoke(prompt)
 
-    print("\n--- SUMMARIZER NODE ENDED ---\n")
-
+    log_node_end("summarizer agent")
+    
     return {
         "final_report": response.content
     }
