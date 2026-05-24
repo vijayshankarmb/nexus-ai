@@ -3,17 +3,7 @@ from app.agents.planner import planner_agent
 from app.graph.state import AgentState
 from app.agents.researcher import researcher_agent
 from app.agents.summarizer import summarizer_agent
-
-def should_retry(state):
-    research = state.get("research", "")
-    retry_count = state.get("retry_count", 0)
-
-    if len(research.strip()) == 0:
-        if retry_count >= 2:
-            return "summarizer"
-        return "retry"
-    else:
-        return "summarizer"
+from app.routers.condition import should_retry
 
 graph_builder = StateGraph(AgentState)
 
