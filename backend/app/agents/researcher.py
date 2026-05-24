@@ -7,13 +7,13 @@ from app.utils.logger import (
     log_info
 )
 from app.utils.timer import (
-    start_time,
-    end_time
+    start_timer,
+    end_timer
 )
 
 async def researcher_agent(state: AgentState):
     log_node_start("researcher agent")
-    timer = start_time()
+    timer = start_timer()
     search_tasks = state["search_tasks"]
 
     for task in search_tasks:
@@ -34,7 +34,7 @@ async def researcher_agent(state: AgentState):
         Content: {result['content']}
         URL: {result['url']}
         """
-    execution_time = end_time(timer)
+    execution_time = end_timer(timer)
     log_info(f"Research completed")
     log_info(f"researcher execution time: {execution_time}s")
     log_node_end("researcher agent")

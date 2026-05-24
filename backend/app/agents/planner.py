@@ -7,13 +7,13 @@ from app.utils.logger import (
     log_info
 )
 from app.utils.timer import (
-    start_time,
-    end_time
+    start_timer,
+    end_timer
 )
 
 def planner_agent(state: AgentState):
     log_node_start("planner agent")
-    timer = start_time()
+    timer = start_timer()
 
     query = state["query"]
 
@@ -46,7 +46,7 @@ Topic:
         log_info(f"Generated {len(search_tasks)} search tasks")
     except:
         search_tasks = [response.content]   
-    execution_time = end_time(timer)
+    execution_time = end_timer(timer)
     log_info(f"planner execution time: {execution_time}s")
     log_node_end("planner agent")
     return {"search_tasks": search_tasks}

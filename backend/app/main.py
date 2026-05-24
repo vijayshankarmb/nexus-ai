@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.agents.planner import planner_agent
 from app.graph.workflow import graph
 from app.tools.web_search import web_search_tool
+from app.utils.fallbacks import fallback_response
 
 app = FastAPI()
 
@@ -14,14 +15,20 @@ async def root():
     
 @app.get("/test")
 async def test():
-
-    result = await graph.ainvoke({
-        "query": "Latest AI agent frameworks",
-        "plan": "",
-        "research": "",
-        "final_report": "",
-        "retry_count": 0
-    })
+    try:
+        result = await graph.ainvoke({
+            "query": "Latest AI agent frameworks",
+            "plan": "",
+            "research": "",
+            "final_report": "",
+            "retry_count": 0
+        }, config={
+            "configurable": {
+                "thread_id": "test-thread"
+            }
+        })
+    except Exception as e:
+        return fallback_response()
 
     return result
 

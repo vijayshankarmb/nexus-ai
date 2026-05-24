@@ -6,13 +6,14 @@ from app.utils.logger import (
     log_info
 )
 from app.utils.timer import (
-    start_time,
-    end_time
+    start_timer,
+    end_timer
 )
+from app.memory.store import save_report
 
 def summarizer_agent(state: AgentState):
     log_node_start("summarizer agent")
-    timer = start_time()
+    timer = start_timer()
     research = state["research"]
 
     prompt = f"""
@@ -27,7 +28,9 @@ def summarizer_agent(state: AgentState):
 
     response = llm.invoke(prompt)
 
-    execution_time = end_time(timer)
+    save_report(response.content)
+
+    execution_time = end_timer(timer)
 
     log_info(f"summarizer execution time: {execution_time}s")
 
