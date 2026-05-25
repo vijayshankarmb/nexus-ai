@@ -21,7 +21,8 @@ async def test():
             "plan": "",
             "research": "",
             "final_report": "",
-            "retry_count": 0
+            "retry_count": 0,
+            "session_id": "session_001"
         }, config={
             "configurable": {
                 "thread_id": "test-thread"

@@ -18,7 +18,9 @@ def planner_agent(state: AgentState):
 
     query = state["query"]
 
-    past_reports = load_reports()
+    session_id = state["session_id"]
+
+    past_reports = load_reports(session_id)
     memory_context = "\n\n".join(past_reports)
 
     prompt = f"""

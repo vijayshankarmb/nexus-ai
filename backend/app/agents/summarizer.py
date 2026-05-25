@@ -28,7 +28,9 @@ def summarizer_agent(state: AgentState):
 
     response = llm.invoke(prompt)
 
-    save_report(response.content)
+    session_id = state["session_id"]
+
+    save_report(session_id, response.content)
 
     execution_time = end_timer(timer)
 

@@ -7,5 +7,6 @@ class AgentState(TypedDict):
     research: str
     final_report: str
     retry_count: int
+    session_id: str
 
     
