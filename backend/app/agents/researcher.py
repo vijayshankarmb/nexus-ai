@@ -31,13 +31,18 @@ async def researcher_agent(state: AgentState):
     results = await asyncio.gather(*research_tasks)
 
     all_research = ""
+    seen_urls = set()
 
     for result_set in results:
         for result in result_set:
+            url = result.get('url')
+            if url in seen_urls:
+                continue
+            seen_urls.add(url)
             all_research += f"""
-        Title: {result['title']}
-        Content: {result['content']}
-        URL: {result['url']}
+        Title: {result.get('title')}
+        Content: {result.get('content')}
+        URL: {url}
         """
     execution_time = end_timer(timer)
     log_info(f"Research completed")

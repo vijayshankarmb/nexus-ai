@@ -3,8 +3,25 @@ from app.agents.planner import planner_agent
 from app.graph.workflow import graph
 from app.tools.web_search import web_search_tool
 from app.utils.fallbacks import fallback_response
+from app.routes import research
+from app.routes import reports
+from fastapi.middleware.cors import CORSMiddleware
+from app.core.init_db import init_db
+
+init_db()
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(research.router)
+app.include_router(reports.router)
 
 @app.get("/")
 async def root():

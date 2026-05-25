@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, DateTime
 from app.db.database import Base
+from datetime import datetime
 
 class Report(Base):
     __tablename__ = "reports"
@@ -8,4 +9,5 @@ class Report(Base):
     session_id = Column(String, index=True)
     query = Column(String)
     content = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
