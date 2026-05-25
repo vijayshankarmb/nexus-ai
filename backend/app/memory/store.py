@@ -3,23 +3,37 @@ import os
 
 BASE_DIR = os.path.dirname(__file__)
 
-MEMORY_FILE = os.path.join(BASE_DIR, "reports.json")
+def get_memory_file(session_id):
 
-def save_report(report):
+    os.makedirs(f"{BASE_DIR}/reports", exist_ok=True)
+
+    return f"{BASE_DIR}/reports/{session_id}.json"
+
+def save_report(session_id, report):
 
     try:
-        if not os.path.exists(MEMORY_FILE):
-            with open(MEMORY_FILE, "w", encoding="utf-8") as file:
-                json.dump([], file)
+        file = get_memory_file(session_id)
+        if not os.path.exists(file):
+            with open(file, "w", encoding="utf-8") as f:
+                json.dump([], f)
 
-        with open(MEMORY_FILE, "r", encoding="utf-8") as file:
-            reports = json.load(file)
+        with open(file, "r", encoding="utf-8") as f:
+            reports = json.load(f)
 
         reports.append(report)
 
-        with open(MEMORY_FILE, "w", encoding="utf-8") as file:
-            json.dump(reports, file, indent=4, ensure_ascii=False)
+        with open(file, "w", encoding="utf-8") as f:
+            json.dump(reports, f, indent=4, ensure_ascii=False)
 
     except Exception as e:
         print("ERROR:", e)
+
+def load_reports(session_id):
+    file = get_memory_file(session_id)
+    if not os.path.exists(file):
+        return []
+    
+    with open(file, "r", encoding="utf-8") as f:
+        reports = json.load(f)
+    return reports[-3:]
 
