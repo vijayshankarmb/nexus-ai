@@ -9,7 +9,7 @@ from app.utils.timer import (
     start_timer,
     end_timer
 )
-from app.memory.store import save_report
+from app.services.report_services import save_report_to_db
 
 def summarizer_agent(state: AgentState):
     log_node_start("summarizer agent")
@@ -30,7 +30,7 @@ def summarizer_agent(state: AgentState):
 
     session_id = state["session_id"]
 
-    save_report(session_id, response.content)
+    save_report_to_db(session_id, state["query"], response.content)
 
     execution_time = end_timer(timer)
 

@@ -10,7 +10,7 @@ from app.utils.timer import (
     start_timer,
     end_timer
 )
-from app.memory.store import load_reports
+from app.services.report_services import load_report_from_db
 
 def planner_agent(state: AgentState):
     log_node_start("planner agent")
@@ -20,7 +20,7 @@ def planner_agent(state: AgentState):
 
     session_id = state["session_id"]
 
-    past_reports = load_reports(session_id)
+    past_reports = load_report_from_db(session_id)
     memory_context = "\n\n".join(past_reports)
 
     prompt = f"""
