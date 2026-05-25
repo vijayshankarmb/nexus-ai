@@ -16,8 +16,13 @@ async def researcher_agent(state: AgentState):
     timer = start_timer()
     search_tasks = state["search_tasks"]
 
+    events = [
+        "Researcher started"
+    ]
+
     for task in search_tasks:
         log_info(f"Researching: {task}")
+        events.append(f"Researching: {task}")
 
     research_tasks = [
         web_search_tool(task) for task in search_tasks
@@ -38,8 +43,10 @@ async def researcher_agent(state: AgentState):
     log_info(f"Research completed")
     log_info(f"researcher execution time: {execution_time}s")
     log_node_end("researcher agent")
+    events.append("Researcher completed")
     return {
         "research": all_research,
-        "retry_count": state["retry_count"] + 1
+        "retry_count": state["retry_count"] + 1,
+        "events": events
     }
     

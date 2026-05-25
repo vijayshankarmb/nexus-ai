@@ -37,8 +37,15 @@ def summarizer_agent(state: AgentState):
     log_info(f"summarizer execution time: {execution_time}s")
 
     log_node_end("summarizer agent")
+
+    events = [
+        "Summarizer started",
+        "Generating final report",
+        "Final report completed"
+    ]
     
     return {
-        "final_report": response.content
+        "final_report": response.content,
+        "events": events
     }
 

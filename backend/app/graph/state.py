@@ -8,5 +8,6 @@ class AgentState(TypedDict):
     final_report: str
     retry_count: int
     session_id: str
+    events: List[str]
 
     

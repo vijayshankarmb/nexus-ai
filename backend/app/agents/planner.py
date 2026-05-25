@@ -57,5 +57,12 @@ Previous research memory:
     execution_time = end_timer(timer)
     log_info(f"planner execution time: {execution_time}s")
     log_node_end("planner agent")
-    return {"search_tasks": search_tasks}
+    return {
+        "search_tasks": search_tasks,
+        "events": [
+            "Planner started",
+            f"Generated {len(search_tasks)} search tasks",
+            "Planner completed"
+        ]
+    }
 
