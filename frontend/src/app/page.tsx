@@ -49,7 +49,7 @@ export default function Home() {
     const loadSessions = async () => {
       setIsFetchingSessions(true);
       try {
-        const res = await fetch('http://localhost:8000/reports');
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reports`);
         if (res.ok) {
           const data = await res.json();
           setSessions(data);
@@ -89,7 +89,7 @@ export default function Home() {
     if (sessionObj) setQuery(sessionObj.query);
 
     try {
-      const res = await fetch(`http://localhost:8000/reports/${sessionId}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reports/${sessionId}`);
       if (res.ok) {
         const reports = await res.json();
         if (reports && reports.length > 0) {
@@ -156,7 +156,7 @@ export default function Home() {
 
     try {
       const eventSource = new EventSource(
-        `http://localhost:8000/research/stream?query=${encodeURIComponent(query)}&session_id=${sessionId}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/research/stream?query=${encodeURIComponent(query)}&session_id=${sessionId}`
       );
 
       eventSource.onmessage = (event) => {
