@@ -10,6 +10,7 @@ from app.utils.timer import (
     end_timer
 )
 from app.services.report_services import save_report_to_db
+from app.utils.llm_parser import extract_text
 
 def summarizer_agent(state: AgentState):
     log_node_start("summarizer agent")
@@ -28,9 +29,11 @@ def summarizer_agent(state: AgentState):
 
     response = llm.invoke(prompt)
 
+    summary = extract_text(response.content)
+
     session_id = state["session_id"]
 
-    save_report_to_db(session_id, state["query"], response.content)
+    save_report_to_db(session_id, state["query"], summary)
 
     execution_time = end_timer(timer)
 
@@ -45,7 +48,7 @@ def summarizer_agent(state: AgentState):
     ]
     
     return {
-        "final_report": response.content,
+        "final_report": summary,
         "events": events
     }
 

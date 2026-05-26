@@ -11,6 +11,7 @@ from app.utils.timer import (
     end_timer
 )
 from app.services.report_services import load_report_from_db
+from app.utils.llm_parser import extract_text
 
 def planner_agent(state: AgentState):
     log_node_start("planner agent")
@@ -48,12 +49,10 @@ Previous research memory:
 """
 
     response = llm.invoke(prompt)
-    try:
-        cleaned_response = response.content.strip()
-        search_tasks = json.loads(cleaned_response)
-        log_info(f"Generated {len(search_tasks)} search tasks")
-    except:
-        search_tasks = [response.content]   
+    
+    cleaned_response = extract_text(response.content).strip()
+    search_tasks = json.loads(cleaned_response)
+    
     execution_time = end_timer(timer)
     log_info(f"planner execution time: {execution_time}s")
     log_node_end("planner agent")

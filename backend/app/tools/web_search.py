@@ -7,7 +7,7 @@ from app.mock.search_results import MOCK_RESULTS
 
 load_dotenv()
 
-USE_MOCK = True
+USE_MOCK = False
 
 tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
